@@ -1,5 +1,7 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Helpers;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<ITaskRepository, TaskRepository>();
+
             var connection = ConnectionHelper.GetConnectionString(configuration);
 
             services.AddDbContextPool<ApplicationDbContext>(options => ConfigureDatabase(options, connection));

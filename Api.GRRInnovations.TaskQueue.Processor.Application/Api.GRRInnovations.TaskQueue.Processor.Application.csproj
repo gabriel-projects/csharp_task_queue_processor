@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Infrastructure\Api.GRRInnovations.TaskQueue.Processor.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>
