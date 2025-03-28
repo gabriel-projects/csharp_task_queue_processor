@@ -1,7 +1,8 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
-using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task
 {
     public class TaskRepository : ITaskRepository
     {
@@ -10,17 +11,17 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repo
             throw new NotImplementedException();
         }
 
-        public Task<ITaskModel> CreateAsync(ITaskModel task)
+        public Task<IEnumerable<TaskModel>> GetAllAsync(TaskOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ITaskModel>> GetAllAsync(TaskOptions taskOptions)
+        public Task<TaskModel?> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ITaskModel> GetByIdAsync(Guid uid)
+        public IQueryable<TaskModel> Query(TaskOptions options)
         {
             throw new NotImplementedException();
         }

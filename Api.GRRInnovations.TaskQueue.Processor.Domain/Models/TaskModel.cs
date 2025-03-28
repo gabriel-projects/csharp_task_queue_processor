@@ -12,5 +12,15 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
         public DateTime? StartedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
         public string? ErrorMessage { get; set; }
+
+        public void Cancel()
+        {
+            Status = ETaskStatus.Cancelled;
+        }
+
+        public void Retry()
+        {
+            Status = ETaskStatus.Pending;
+        }
     }
 }
