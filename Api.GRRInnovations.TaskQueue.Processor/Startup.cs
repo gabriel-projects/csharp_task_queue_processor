@@ -1,5 +1,6 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Application;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure;
+using Api.GRRInnovations.TaskQueue.Processor.Worker;
 
 namespace Api.GRRInnovations.TaskQueue.Processor
 {
@@ -18,6 +19,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor
 
             services.AddInfrastructureServices(_configuration);
             services.AddApplicationServices();
+            services.AddWorkerServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

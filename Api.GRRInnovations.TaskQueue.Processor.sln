@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.GRRInnovations.TaskQueu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.GRRInnovations.TaskQueue.Processor.Domain", "Api.GRRInnovations.TaskQueue.Processor.Domain\Api.GRRInnovations.TaskQueue.Processor.Domain.csproj", "{3DDACAEE-ECF3-4DB5-9736-11E477281CC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.GRRInnovations.TaskQueue.Processor.Worker", "Api.GRRInnovations.TaskQueue.Processor.Worker\Api.GRRInnovations.TaskQueue.Processor.Worker.csproj", "{70CBCF4B-B3BA-49D2-BFE6-1A43489647FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3DDACAEE-ECF3-4DB5-9736-11E477281CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DDACAEE-ECF3-4DB5-9736-11E477281CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DDACAEE-ECF3-4DB5-9736-11E477281CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70CBCF4B-B3BA-49D2-BFE6-1A43489647FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70CBCF4B-B3BA-49D2-BFE6-1A43489647FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70CBCF4B-B3BA-49D2-BFE6-1A43489647FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70CBCF4B-B3BA-49D2-BFE6-1A43489647FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

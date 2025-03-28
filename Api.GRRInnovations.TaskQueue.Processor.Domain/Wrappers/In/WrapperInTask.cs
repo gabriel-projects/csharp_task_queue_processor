@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In
 {
-    public class WrapperInTask<TTask> : WrapperBase<TTask, WrapperInTask<TTask>> where TTask : ITaskModel
+    public class WrapperInTask<TTask> : WrapperBase<TTask, WrapperInTask<TTask>> 
+        where TTask : ITaskModel
     {
         public WrapperInTask() { }
         public WrapperInTask(TTask data) : base(data) { }
