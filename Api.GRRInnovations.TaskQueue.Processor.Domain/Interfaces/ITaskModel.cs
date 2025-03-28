@@ -13,7 +13,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces
         ETaskType Type { get; set; }
         ETaskPriority Priority { get; set; }
         ETaskStatus Status { get; set; }
-        DateTime CreatedAt { get; set; }
         DateTime? StartedAt { get; set; }
         DateTime? CompletedAt { get; set; }
         string? ErrorMessage { get; set; }

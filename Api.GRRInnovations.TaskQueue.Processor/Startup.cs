@@ -16,7 +16,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor
         {
             services.AddControllers();
 
-            services.AddInfrastructureServices();
+            services.AddInfrastructureServices(_configuration);
             services.AddApplicationServices();
         }
 
