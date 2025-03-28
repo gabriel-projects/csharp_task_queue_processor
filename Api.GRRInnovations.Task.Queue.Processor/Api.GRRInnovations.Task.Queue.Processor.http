@@ -1,6 +1,0 @@
-@Api.GRRInnovations.Task.Queue.Processor_HostAddress = http://localhost:5065
-
-GET {{Api.GRRInnovations.Task.Queue.Processor_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

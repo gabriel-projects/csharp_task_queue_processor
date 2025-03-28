@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -14,12 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Api.GRRInnovations.Task.Queue.Processor.Application\Api.GRRInnovations.Task.Queue.Processor.Application.csproj" />
-    <ProjectReference Include="..\Api.GRRInnovations.Task.Queue.Processor.Infrastructure\Api.GRRInnovations.Task.Queue.Processor.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Application\Api.GRRInnovations.TaskQueue.Processor.Application.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Infrastructure\Api.GRRInnovations.TaskQueue.Processor.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

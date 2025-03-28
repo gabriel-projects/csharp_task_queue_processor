@@ -1,4 +1,4 @@
-namespace Api.GRRInnovations.Task.Queue.Processor
+namespace Api.GRRInnovations.TaskQueue.Processor
 {
     public class Program
     {

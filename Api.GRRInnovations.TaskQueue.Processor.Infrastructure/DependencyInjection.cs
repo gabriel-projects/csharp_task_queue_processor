@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.Task.Queue.Processor.Infrastructure
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
 {
     public static class DependencyInjection
     {

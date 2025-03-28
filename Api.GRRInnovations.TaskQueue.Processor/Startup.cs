@@ -1,7 +1,7 @@
-﻿using Api.GRRInnovations.Task.Queue.Processor.Application;
-using Api.GRRInnovations.Task.Queue.Processor.Infrastructure;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Application;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure;
 
-namespace Api.GRRInnovations.Task.Queue.Processor
+namespace Api.GRRInnovations.TaskQueue.Processor
 {
     public class Startup
     {

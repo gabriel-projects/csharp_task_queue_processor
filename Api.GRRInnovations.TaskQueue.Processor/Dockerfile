@@ -14,19 +14,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0-nanoserver-1809 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Api.GRRInnovations.Task.Queue.Processor/Api.GRRInnovations.Task.Queue.Processor.csproj", "Api.GRRInnovations.Task.Queue.Processor/"]
-RUN dotnet restore "./Api.GRRInnovations.Task.Queue.Processor/Api.GRRInnovations.Task.Queue.Processor.csproj"
+COPY ["Api.GRRInnovations.TaskQueue.Processor/Api.GRRInnovations.TaskQueue.Processor.csproj", "Api.GRRInnovations.TaskQueue.Processor/"]
+RUN dotnet restore "./Api.GRRInnovations.TaskQueue.Processor/Api.GRRInnovations.TaskQueue.Processor.csproj"
 COPY . .
-WORKDIR "/src/Api.GRRInnovations.Task.Queue.Processor"
-RUN dotnet build "./Api.GRRInnovations.Task.Queue.Processor.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+WORKDIR "/src/Api.GRRInnovations.TaskQueue.Processor"
+RUN dotnet build "./Api.GRRInnovations.TaskQueue.Processor.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Api.GRRInnovations.Task.Queue.Processor.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Api.GRRInnovations.TaskQueue.Processor.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Api.GRRInnovations.Task.Queue.Processor.dll"]
+ENTRYPOINT ["dotnet", "Api.GRRInnovations.TaskQueue.Processor.dll"]

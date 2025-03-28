@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.GRRInnovations.Task.Queue.Processor.Application
+namespace Api.GRRInnovations.TaskQueue.Processor.Application
 {
     public static class DependencyInjection
     {

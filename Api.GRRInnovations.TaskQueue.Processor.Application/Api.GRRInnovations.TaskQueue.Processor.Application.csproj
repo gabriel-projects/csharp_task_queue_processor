@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Api.GRRInnovations.Task.Queue.Processor.Domain\Api.GRRInnovations.Task.Queue.Processor.Domain.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Infrastructure\Api.GRRInnovations.TaskQueue.Processor.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
