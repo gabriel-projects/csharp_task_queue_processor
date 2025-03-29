@@ -14,4 +14,8 @@
     <Folder Include="Wrappers\Out\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Interfaces\Api.GRRInnovations.TaskQueue.Processor.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

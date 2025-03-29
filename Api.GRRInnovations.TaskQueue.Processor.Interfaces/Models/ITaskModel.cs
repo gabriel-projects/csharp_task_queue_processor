@@ -1,11 +1,11 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Enums;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces
+namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models
 {
     public interface ITaskModel : IBaseModel
     {

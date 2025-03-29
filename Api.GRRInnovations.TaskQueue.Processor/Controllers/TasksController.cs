@@ -1,7 +1,7 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Application.Interfaces;
-using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
@@ -11,10 +11,12 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
+        private readonly ITaskQueuePublisher _taskQueuePublisher;
 
-        public TasksController(ITaskService taskService)
+        public TasksController(ITaskService taskService, ITaskQueuePublisher taskQueuePublisher)
         {
             _taskService = taskService;
+            _taskQueuePublisher = taskQueuePublisher;
         }
 
         [HttpPost]
@@ -23,6 +25,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
             var wrapperModel = await wrapperInTask.Result();
 
             var id = await _taskService.CreateAsync(wrapperModel);
+
+            await _taskQueuePublisher.PublishAsync(wrapperModel);
+
             return CreatedAtAction(nameof(GetById), new { id }, new { id });
         }
 

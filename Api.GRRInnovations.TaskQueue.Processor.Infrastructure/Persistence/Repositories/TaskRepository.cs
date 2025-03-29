@@ -1,13 +1,11 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
-using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
-using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces.Base;
-using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories
 {
-    public class TaskRepositoryV2 : Repository<TaskModel, TaskOptions>, ITaskRepository
+    public class TaskRepository : Repository<TaskModel, TaskOptions>, ITaskRepository
     {
-        public TaskRepositoryV2(ApplicationDbContext context) : base(context)
+        public TaskRepository(ApplicationDbContext context) : base(context)
         {
         }
 
@@ -17,6 +15,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task
             if (task is null) return false;
 
             task.Cancel();
+
             await SaveChangesAsync();
             return true;
         }

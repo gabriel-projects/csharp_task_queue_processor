@@ -1,6 +1,8 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Helpers;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence;
-using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Task;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
 {
@@ -18,12 +21,14 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ITaskRepository, TaskRepository>();
-            services.AddScoped<ITaskReadOnlyRepository, TaskRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+
+            services.AddScoped<ITaskQueuePublisher, RabbitMqTaskQueuePublisher>();
 
             var connection = ConnectionHelper.GetConnectionString(configuration);
 
             services.AddDbContextPool<ApplicationDbContext>(options => ConfigureDatabase(options, connection));
+
+
             return services;
         }
 
@@ -39,10 +44,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
 
                 sqlOptions.CommandTimeout(60);
             });
-
-            // Otimização para leitura: desabilita tracking por padrão
-            // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            // var users = await _context.Users.AsNoTracking().ToListAsync();
 
 #if DEBUG
             options.LogTo(Console.WriteLine, LogLevel.Information)

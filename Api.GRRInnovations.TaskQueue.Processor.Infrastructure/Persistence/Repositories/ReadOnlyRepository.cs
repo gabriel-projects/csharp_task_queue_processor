@@ -1,4 +1,5 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces.Base
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories
 {
     public abstract class ReadOnlyRepository<TEntity, TOptions> : IReadOnlyRepository<TEntity, TOptions>
     where TEntity : class

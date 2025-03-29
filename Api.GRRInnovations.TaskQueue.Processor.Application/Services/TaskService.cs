@@ -1,5 +1,6 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Application.Interfaces;
-using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Application.Services
 {
     public class TaskService : ITaskService
     {
-
-
         public Task<bool> CancelAsync(Guid id)
         {
             throw new NotImplementedException();

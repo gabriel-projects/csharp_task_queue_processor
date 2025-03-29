@@ -17,9 +17,12 @@ namespace Api.GRRInnovations.TaskQueue.Processor
         {
             services.AddControllers();
 
-            services.AddInfrastructureServices(_configuration);
-            services.AddApplicationServices();
-            services.AddWorkerServices();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.AddInfrastructureServices(_configuration)
+                .AddApplicationServices()
+                .AddWorkerServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Worker
 {
@@ -11,6 +7,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker
     {
         public static IServiceCollection AddWorkerServices(this IServiceCollection services)
         {
+            services.AddHostedService<TaskQueueConsumer>();
+
             return services;
         }
     }

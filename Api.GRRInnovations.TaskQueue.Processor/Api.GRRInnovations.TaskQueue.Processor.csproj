@@ -5,7 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>224abad6-e94c-49ce-8567-f77fa1357c48</UserSecretsId>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Application\Api.GRRInnovations.TaskQueue.Processor.Application.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Infrastructure\Api.GRRInnovations.TaskQueue.Processor.Infrastructure.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Worker\Api.GRRInnovations.TaskQueue.Processor.Worker.csproj" />
   </ItemGroup>
 
 </Project>

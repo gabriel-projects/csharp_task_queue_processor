@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces
+namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models
 {
     public interface IBaseModel
     {

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Enums
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Helpers
 {
-    public enum ETaskPriority
+    public class RabbitMqConnection 
     {
-        Low,
-        Medium,
-        High
     }
 }

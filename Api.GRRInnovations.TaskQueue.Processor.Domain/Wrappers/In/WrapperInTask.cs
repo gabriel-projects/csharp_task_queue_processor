@@ -1,11 +1,12 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Enums;
-using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Enums;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In
 {

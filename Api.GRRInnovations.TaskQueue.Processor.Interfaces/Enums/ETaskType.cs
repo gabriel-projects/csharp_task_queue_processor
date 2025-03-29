@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Enums
+namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Enums
 {
     public enum ETaskType
     {

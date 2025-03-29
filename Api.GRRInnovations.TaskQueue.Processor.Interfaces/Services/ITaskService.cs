@@ -1,11 +1,12 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Interfaces;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Application.Interfaces
+namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services
 {
     public interface ITaskService
     {

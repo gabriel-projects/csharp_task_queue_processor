@@ -23,9 +23,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Application\Api.GRRInnovations.TaskQueue.Processor.Application.csproj" />
     <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Domain\Api.GRRInnovations.TaskQueue.Processor.Domain.csproj" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces.Base
+namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories
 {
     public interface IRepository<TEntity, in TOptions> : IReadOnlyRepository<TEntity, TOptions>
     where TEntity : class

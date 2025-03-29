@@ -1,0 +1,31 @@
+services:
+  api.grrinnovations.taskqueue.processor:
+    image: ${DOCKER_REGISTRY-}apigrrinnovationstaskqueueprocessor
+    build:
+      context: .
+      dockerfile: Api.GRRInnovations.TaskQueue.Processor/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - RabbitMQ__Host=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - rabbitmq-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    networks:
+      - rabbitmq-net
+
+networks:
+  rabbitmq-net:
+    driver: bridge
