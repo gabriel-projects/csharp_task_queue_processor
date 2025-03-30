@@ -11,5 +11,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models
         DateTime? StartedAt { get; set; }
         DateTime? CompletedAt { get; set; }
         string? ErrorMessage { get; set; }
+
+        void Completed();
     }
 }

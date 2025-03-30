@@ -62,9 +62,15 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repo
             return true;
         }
 
-        public void Update(ITaskModel entity)
+        public async Task<ITaskModel> Update(ITaskModel entity)
         {
-            throw new NotImplementedException();
+            var mmodel = entity as TaskModel;
+            if (mmodel == null) return null;
+
+            _context.Update(mmodel);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return mmodel;
         }
     }
 }

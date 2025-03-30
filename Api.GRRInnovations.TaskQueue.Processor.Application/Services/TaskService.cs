@@ -30,6 +30,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Application.Services
             var mmodel = entity as TaskModel;
             if (mmodel == null) return null;
 
+
+
             await _taskRepository.CreateAsync(mmodel);
 
             return mmodel;
@@ -50,9 +52,14 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(ITaskModel entity)
+        public async Task<ITaskModel> UpdateAsync(ITaskModel entity)
         {
-            throw new NotImplementedException();
+            var mmodel = entity as TaskModel;
+            if (mmodel == null) return null;
+
+            await _taskRepository.Update(mmodel);
+
+            return mmodel;
         }
     }
 }

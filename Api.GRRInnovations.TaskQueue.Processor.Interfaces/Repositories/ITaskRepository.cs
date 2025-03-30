@@ -5,7 +5,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories
     public interface ITaskRepository
     {
         Task<ITaskModel> CreateAsync(ITaskModel entity);
-        void Update(ITaskModel entity);
+        Task<ITaskModel> Update(ITaskModel entity);
         Task<ITaskModel?> GetByIdAsync(Guid id);
         Task<IEnumerable<ITaskModel>> GetAllAsync(TaskOptions options);
         Task<bool> RetryAsync(Guid id);

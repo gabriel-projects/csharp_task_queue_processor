@@ -18,6 +18,11 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Entities
             Status = ETaskStatus.Cancelled;
         }
 
+        public void Completed()
+        {
+            Status = ETaskStatus.Completed;
+        }
+
         public void Retry()
         {
             Status = ETaskStatus.Pending;

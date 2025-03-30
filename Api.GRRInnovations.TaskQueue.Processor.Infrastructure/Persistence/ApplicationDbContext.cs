@@ -1,5 +1,7 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System.Threading;
 
@@ -18,6 +20,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
 
             DefaultModelSetup<TaskModel>(modelBuilder);
+            modelBuilder.Entity<TaskModel>().Property(m => m.Type).HasConversion(new EnumToStringConverter<ETaskType>()).HasMaxLength(100);
+            modelBuilder.Entity<TaskModel>().Property(m => m.Status).HasConversion(new EnumToStringConverter<ETaskStatus>()).HasMaxLength(100);
+            modelBuilder.Entity<TaskModel>().Property(m => m.Priority).HasConversion(new EnumToStringConverter<ETaskPriority>()).HasMaxLength(100);
         }
 
         public override int SaveChanges()

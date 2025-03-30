@@ -13,7 +13,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services
         Task<ITaskModel?> GetByIdAsync(Guid id);
         Task<IEnumerable<ITaskModel>> GetAllAsync();
         Task<ITaskModel> CreateAsync(ITaskModel entity);
-        Task UpdateAsync(ITaskModel entity);
+        Task<ITaskModel> UpdateAsync(ITaskModel entity);
         Task<bool> RetryAsync(Guid id);
         Task<bool> CancelAsync(Guid id);
     }

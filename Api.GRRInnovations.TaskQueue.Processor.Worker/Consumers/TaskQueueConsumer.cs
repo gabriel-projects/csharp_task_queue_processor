@@ -1,6 +1,8 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.ContractResolver;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.Out;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -108,10 +110,14 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
                 {
                     var _taskService = scope.ServiceProvider.GetRequiredService<ITaskService>();
 
-                    var model = System.Text.Json.JsonSerializer.Deserialize<WrapperInTask<TaskModel>>(message);
-                    var result = await model.Result().ConfigureAwait(false);
+                    var wrapperTask = DefaultWrapperResolver.Deserialize<WrapperOutTask>(message);
+                    var result = await wrapperTask.Result().ConfigureAwait(false);
 
-                    await _taskService.CreateAsync(result);
+                    _logger.LogInformation("Processando tarefa: {description}", result.Description);
+
+                    result.Completed();
+
+                    await _taskService.UpdateAsync(result);
                 }
 
                 return true;

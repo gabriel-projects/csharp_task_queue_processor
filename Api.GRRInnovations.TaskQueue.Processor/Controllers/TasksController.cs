@@ -2,6 +2,7 @@
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private readonly IRabbitMQPublisher<TaskModel> _rabbitMQPublisher;
+        private readonly IRabbitMQPublisher<ITaskModel> _rabbitMQPublisher;
 
-        public TasksController(ITaskService taskService, IRabbitMQPublisher<TaskModel> rabbitMQPublisher)
+        public TasksController(ITaskService taskService, IRabbitMQPublisher<ITaskModel> rabbitMQPublisher)
         {
             _taskService = taskService;
             _rabbitMQPublisher = rabbitMQPublisher;
@@ -25,9 +26,15 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
         {
             var wrapperModel = await wrapperInTask.Result();
 
-            await _rabbitMQPublisher.PublishMessageAsync(wrapperModel, RabbitMQQueues.TaskQueue);
+            var model = await _taskService.CreateAsync(wrapperModel);
+            if (model is null)
+            {
+                return BadRequest();
+            }
 
-            return new OkObjectResult(wrapperModel);
+            await _rabbitMQPublisher.PublishMessageAsync(model, RabbitMQQueues.TaskQueue);
+
+            return new OkObjectResult(model);
         }
 
         [HttpGet("{id}")]
