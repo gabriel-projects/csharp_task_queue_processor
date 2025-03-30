@@ -1,5 +1,4 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Application.Interfaces;
-using Api.GRRInnovations.TaskQueue.Processor.Application.Services;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Application.Services;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories
+namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces.Base
 {
     public abstract class ReadOnlyRepository<TEntity, TOptions> : IReadOnlyRepository<TEntity, TOptions>
     where TEntity : class

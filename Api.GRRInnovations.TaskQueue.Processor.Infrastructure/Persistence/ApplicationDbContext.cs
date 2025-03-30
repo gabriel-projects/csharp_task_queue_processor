@@ -1,4 +1,4 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System.Threading;

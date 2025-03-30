@@ -2,6 +2,7 @@
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using RabbitMQ.Client;
 using System.Text;
+using System.Text.Json;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
 {
@@ -32,7 +33,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
                              autoDelete: false,
                              arguments: null);
 
-            var json = System.Text.Json.JsonSerializer.Serialize(task);
+            var json = JsonSerializer.Serialize(task);
 
             var body = Encoding.UTF8.GetBytes(json);
             var props = new BasicProperties();

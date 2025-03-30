@@ -1,4 +1,5 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories

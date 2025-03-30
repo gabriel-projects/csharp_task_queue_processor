@@ -1,6 +1,6 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 
-namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
+namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Entities
 {
     public class BaseModel : IBaseModel
     {

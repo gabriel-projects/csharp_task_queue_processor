@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
 {
@@ -23,6 +24,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
             services.AddScoped<ITaskRepository, TaskRepository>();
 
             services.AddScoped<ITaskQueuePublisher, RabbitMqTaskQueuePublisher>();
+
+
+            services.AddScoped(typeof(IRabbitMQPublisher<>), typeof(RabbitMQPublisher<>));
 
             var connection = ConnectionHelper.GetConnectionString(configuration);
 

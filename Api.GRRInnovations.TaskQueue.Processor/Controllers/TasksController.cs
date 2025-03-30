@@ -1,6 +1,7 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Application.Interfaces;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,13 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
     {
         private readonly ITaskService _taskService;
         private readonly ITaskQueuePublisher _taskQueuePublisher;
+        private readonly IRabbitMQPublisher<TaskModel> _rabbitMQPublisher;
 
-        public TasksController(ITaskService taskService, ITaskQueuePublisher taskQueuePublisher)
+        public TasksController(ITaskService taskService, ITaskQueuePublisher taskQueuePublisher, IRabbitMQPublisher<TaskModel> rabbitMQPublisher)
         {
             _taskService = taskService;
             _taskQueuePublisher = taskQueuePublisher;
+            _rabbitMQPublisher = rabbitMQPublisher;
         }
 
         [HttpPost]
@@ -26,9 +29,11 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
 
             var id = await _taskService.CreateAsync(wrapperModel);
 
-            await _taskQueuePublisher.PublishAsync(wrapperModel);
+            //await _taskQueuePublisher.PublishAsync(wrapperModel);
 
-            return CreatedAtAction(nameof(GetById), new { id }, new { id });
+            await _rabbitMQPublisher.PublishMessageAsync(wrapperModel, RabbitMQQueues.TaskQueue);
+
+            return new OkObjectResult(wrapperModel);
         }
 
         [HttpGet("{id}")]

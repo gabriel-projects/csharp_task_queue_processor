@@ -1,4 +1,6 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Interfaces.Base;
+using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
