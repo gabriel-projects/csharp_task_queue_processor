@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
+using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
 {

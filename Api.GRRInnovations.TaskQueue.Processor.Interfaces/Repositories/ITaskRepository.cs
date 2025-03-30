@@ -1,14 +1,13 @@
-﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories
 {
     public interface ITaskRepository
     {
+        Task<ITaskModel> CreateAsync(ITaskModel entity);
+        void Update(ITaskModel entity);
+        Task<ITaskModel?> GetByIdAsync(Guid id);
+        Task<IEnumerable<ITaskModel>> GetAllAsync(TaskOptions options);
         Task<bool> RetryAsync(Guid id);
         Task<bool> CancelAsync(Guid id);
     }

@@ -30,7 +30,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Application.Services
             var mmodel = entity as TaskModel;
             if (mmodel == null) return null;
 
-            // await _taskRepository
+            await _taskRepository.CreateAsync(mmodel);
 
             return mmodel;
         }

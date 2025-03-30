@@ -22,5 +22,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
     public static class RabbitMQQueues
     {
         public const string TaskQueue = "taskQueue";
+        public const string TaskQueueDead = "task-queue-dead";
     }
 }

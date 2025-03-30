@@ -10,6 +10,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Reflection;
 using System.Text;
+using System.Threading.Channels;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
 {
@@ -19,9 +20,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
         private readonly ConnectionFactory _factory;
         private IChannel _channel;
         private IConnection _connection;
-        private readonly ITaskService _taskService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public TaskQueueConsumer(ILogger<TaskQueueConsumer> logger, IOptions<RabbitMQSetting> rabbitMqSetting, ITaskService taskService)
+        public TaskQueueConsumer(ILogger<TaskQueueConsumer> logger, IOptions<RabbitMQSetting> rabbitMqSetting,IServiceProvider serviceProvider)
         {
             _logger = logger;
             _factory = new ConnectionFactory
@@ -32,7 +33,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
             };
 
             _logger = logger;
-            _taskService = taskService;
+            _serviceProvider = serviceProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -43,10 +44,20 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
             _channel = await _connection.CreateChannelAsync();
 
             await _channel.QueueDeclareAsync(queue: RabbitMQQueues.TaskQueue,
-                              durable: false,
-                              exclusive: false,
-                              autoDelete: false,
-                              arguments: null);
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: new Dictionary<string, object>
+                {
+                    { "x-dead-letter-exchange", "" },
+                    { "x-dead-letter-routing-key", RabbitMQQueues.TaskQueueDead }
+                });
+
+            await _channel.QueueDeclareAsync(queue: RabbitMQQueues.TaskQueueDead,
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.ReceivedAsync += async (model, ea) =>
@@ -73,7 +84,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
                 }
                 else
                 {
-                    await _channel.BasicRejectAsync(ea.DeliveryTag, requeue: true);
+                    await _channel.BasicNackAsync(ea.DeliveryTag, false, false);
                 }
                 
                 await Task.Delay(1000);
@@ -93,10 +104,15 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
         {
             try
             {
-                var model = System.Text.Json.JsonSerializer.Deserialize<WrapperInTask<TaskModel>>(message);
-                var result = await model.Result().ConfigureAwait(false);
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var _taskService = scope.ServiceProvider.GetRequiredService<ITaskService>();
 
-                await _taskService.CreateAsync(result);
+                    var model = System.Text.Json.JsonSerializer.Deserialize<WrapperInTask<TaskModel>>(message);
+                    var result = await model.Result().ConfigureAwait(false);
+
+                    await _taskService.CreateAsync(result);
+                }
 
                 return true;
             }

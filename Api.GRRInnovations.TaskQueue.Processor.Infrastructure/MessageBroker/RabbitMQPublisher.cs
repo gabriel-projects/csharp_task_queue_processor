@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Channels;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
 {
@@ -30,10 +31,14 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
             using var channel = await connection.CreateChannelAsync();
 
             await channel.QueueDeclareAsync(queue: queueName,
-                             durable: false,
-                             exclusive: false,
-                             autoDelete: false,
-                             arguments: null);
+               durable: true,
+               exclusive: false,
+               autoDelete: false,
+               arguments: new Dictionary<string, object>
+               {
+                    { "x-dead-letter-exchange", "" },
+                    { "x-dead-letter-routing-key", RabbitMQQueues.TaskQueueDead }
+               });
 
             var messageJson = JsonSerializer.Serialize(message);
             var body = Encoding.UTF8.GetBytes(messageJson);

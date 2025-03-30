@@ -25,6 +25,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence
             int result;
             try
             {
+                AdjustChanges();
                 result = base.SaveChanges();
             }
             catch (Exception)
@@ -41,6 +42,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence
             int result;
             try
             {
+                AdjustChanges();
                 result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
@@ -75,10 +77,25 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence
             }
         }
 
+        private void AdjustChanges()
+        {
+            var changes = ChangeTracker.Entries<BaseModel>().Where(p => p.State == EntityState.Modified || p.State == EntityState.Added);
+
+            foreach (var entry in changes)
+            {
+                entry.Property(p => p.UpdatedAt).CurrentValue = DateTime.UtcNow;
+
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property(p => p.CreatedAt).CurrentValue = DateTime.UtcNow;
+                }
+            }
+        }
+
         public void DefaultModelSetup<T>(ModelBuilder modelBuilder) where T : BaseModel
         {
-            modelBuilder.Entity<T>().Property(m => m.CreatedAt).ValueGeneratedOnAdd().IsRequired();
-            modelBuilder.Entity<T>().Property(m => m.UpdatedAt).ValueGeneratedOnAddOrUpdate().IsRequired();
+            modelBuilder.Entity<T>().Property(m => m.CreatedAt).IsRequired();
+            modelBuilder.Entity<T>().Property(m => m.UpdatedAt).IsRequired();
 
             modelBuilder.Entity<T>().HasKey(m => m.Uid);
             modelBuilder.Entity<T>().Property((m) => m.Uid).IsRequired().HasValueGenerator<GuidValueGenerator>();

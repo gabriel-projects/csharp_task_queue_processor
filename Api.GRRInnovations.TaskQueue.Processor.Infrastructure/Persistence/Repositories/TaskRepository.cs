@@ -1,44 +1,70 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repositories
 {
-    public class TaskRepository : Repository<TaskModel, TaskOptions>, ITaskRepository
+    public class TaskRepository : ITaskRepository
     {
-        public TaskRepository(ApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext _context;
+
+        public TaskRepository(ApplicationDbContext context)
         {
+            _context = context;
         }
+
 
         public async Task<bool> CancelAsync(Guid id)
         {
-            var task = await _dbSet.FindAsync(id);
+            var task = await _context.Tasks.FindAsync(id);
             if (task is null) return false;
 
             task.Cancel();
 
-            await SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<ITaskModel> CreateAsync(ITaskModel entity)
+        {
+            var mmodel = entity as TaskModel;
+            if (mmodel == null) return null;
+
+            await _context.Tasks.AddAsync(mmodel).ConfigureAwait(false);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return mmodel;
+        }
+
+        public Task<IEnumerable<ITaskModel>> GetAllAsync(TaskOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ITaskModel?> GetByIdAsync(Guid id)
+        {
+            var task = await _context.Tasks
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+
+            return task;
         }
 
         public async Task<bool> RetryAsync(Guid id)
         {
-            var task = await _dbSet.FindAsync(id);
+            var task = await _context.Tasks.FindAsync(id);
             if (task is null) return false;
 
             task.Retry();
-            await SaveChangesAsync();
+
+            await _context.SaveChangesAsync();
             return true;
         }
 
-        protected override IQueryable<TaskModel> ApplyFiltering(IQueryable<TaskModel> query, TaskOptions options)
+        public void Update(ITaskModel entity)
         {
-            if (options.FilterUids != null)
-            {
-                query = query = query.Where(p => options.FilterUids.Contains(p.Uid));
-            }
-
-            return query;
+            throw new NotImplementedException();
         }
     }
 }
