@@ -10,9 +10,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Serilog.Context;
 using System.Reflection;
 using System.Text;
 using System.Threading.Channels;
+using System.Threading.Tasks;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
 {
@@ -73,7 +75,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
 
                 try
                 {
-                    processedSuccessfully = await ProcessMessageAsync(message);
+                    processedSuccessfully = await ProcessMessageAsync(message, ea);
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +90,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
                 {
                     await _channel.BasicNackAsync(ea.DeliveryTag, false, false);
                 }
-                
+
                 await Task.Delay(1000);
             };
 
@@ -102,7 +104,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
             }
         }
 
-        private async Task<bool> ProcessMessageAsync(string message)
+        private async Task<bool> ProcessMessageAsync(string message, BasicDeliverEventArgs ea)
         {
             try
             {
@@ -113,7 +115,18 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
                     var wrapperTask = DefaultWrapperResolver.Deserialize<WrapperOutTask>(message);
                     var result = await wrapperTask.Result().ConfigureAwait(false);
 
-                    _logger.LogInformation("Processando tarefa: {description}", result.Description);
+                    string correlationId = null;
+
+                    if (ea.BasicProperties.Headers != null &&
+                        ea.BasicProperties.Headers.TryGetValue("X-Correlation-ID", out var rawCorrelationId))
+                    {
+                        correlationId = Encoding.UTF8.GetString((byte[])rawCorrelationId);
+                    }
+
+                    using (LogContext.PushProperty("CorrelationId", correlationId))
+                    {
+                        _logger.LogInformation("Processando tarefa {TaskId}", result.Uid);
+                    }
 
                     result.Completed();
 

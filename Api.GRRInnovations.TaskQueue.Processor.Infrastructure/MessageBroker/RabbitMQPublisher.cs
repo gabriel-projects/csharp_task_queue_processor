@@ -1,5 +1,6 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
@@ -15,8 +16,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
     {
         private readonly RabbitMQSetting _rabbitMqSetting;
         private readonly AsyncRetryPolicy _retryPolicy;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public RabbitMQPublisher(IOptions<RabbitMQSetting> rabbitMqSetting)
+        public RabbitMQPublisher(IOptions<RabbitMQSetting> rabbitMqSetting, IHttpContextAccessor httpContextAccessor)
         {
             _rabbitMqSetting = rabbitMqSetting.Value;
 
@@ -24,6 +26,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
                .Handle<BrokerUnreachableException>()
                .Or<OperationInterruptedException>()
                .WaitAndRetryAsync(_rabbitMqSetting.RetryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task PublishMessageAsync(T message, string queueName)
@@ -40,6 +43,9 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
                 using var connection = await factory.CreateConnectionAsync();
                 using var channel = await connection.CreateChannelAsync();
 
+                var correlationId = _httpContextAccessor.HttpContext?.Items["X-Correlation-ID"]?.ToString()
+                    ?? Guid.NewGuid().ToString();
+
                 await channel.QueueDeclareAsync(queue: queueName,
                    durable: true,
                    exclusive: false,
@@ -53,7 +59,13 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
                 var messageJson = JsonSerializer.Serialize(message);
                 var body = Encoding.UTF8.GetBytes(messageJson);
 
-                var props = new BasicProperties();
+                var props = new BasicProperties()
+                {
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "X-Correlation-ID", Encoding.UTF8.GetBytes(correlationId) }
+                    }
+                };
 
                 await channel.BasicPublishAsync("", queueName, false, props, body);
             });

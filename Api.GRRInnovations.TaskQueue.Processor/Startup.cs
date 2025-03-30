@@ -1,6 +1,7 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Application;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Infrastructure;
+using Api.GRRInnovations.TaskQueue.Processor.Middlewares;
 using Api.GRRInnovations.TaskQueue.Processor.Worker;
 
 namespace Api.GRRInnovations.TaskQueue.Processor
@@ -17,6 +18,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddHttpContextAccessor();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -49,6 +52,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<CorrelationIdMiddleware>();
 
             app.UseRouting();
 

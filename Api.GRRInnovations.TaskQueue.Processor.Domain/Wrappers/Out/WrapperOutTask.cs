@@ -11,7 +11,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.Out
 {
     public class WrapperOutTask : WrapperBase<ITaskModel>
     {
-        public WrapperOutTask() { }
+        public WrapperOutTask() : base(null) { }
         public WrapperOutTask(ITaskModel data) : base(data) { }
 
 
