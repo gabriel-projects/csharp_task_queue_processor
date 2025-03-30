@@ -1,14 +1,9 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
 using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
 {

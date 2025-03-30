@@ -22,10 +22,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ITaskRepository, TaskRepository>();
-
-            services.AddScoped<ITaskQueuePublisher, RabbitMqTaskQueuePublisher>();
-
-
             services.AddScoped(typeof(IRabbitMQPublisher<>), typeof(RabbitMQPublisher<>));
 
             var connection = ConnectionHelper.GetConnectionString(configuration);

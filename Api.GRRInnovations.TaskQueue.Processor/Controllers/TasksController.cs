@@ -12,13 +12,11 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private readonly ITaskQueuePublisher _taskQueuePublisher;
         private readonly IRabbitMQPublisher<TaskModel> _rabbitMQPublisher;
 
-        public TasksController(ITaskService taskService, ITaskQueuePublisher taskQueuePublisher, IRabbitMQPublisher<TaskModel> rabbitMQPublisher)
+        public TasksController(ITaskService taskService, IRabbitMQPublisher<TaskModel> rabbitMQPublisher)
         {
             _taskService = taskService;
-            _taskQueuePublisher = taskQueuePublisher;
             _rabbitMQPublisher = rabbitMQPublisher;
         }
 
@@ -26,10 +24,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
         public async Task<IActionResult> Create([FromBody] WrapperInTask<TaskModel> wrapperInTask)
         {
             var wrapperModel = await wrapperInTask.Result();
-
-            var id = await _taskService.CreateAsync(wrapperModel);
-
-            //await _taskQueuePublisher.PublishAsync(wrapperModel);
 
             await _rabbitMQPublisher.PublishMessageAsync(wrapperModel, RabbitMQQueues.TaskQueue);
 
