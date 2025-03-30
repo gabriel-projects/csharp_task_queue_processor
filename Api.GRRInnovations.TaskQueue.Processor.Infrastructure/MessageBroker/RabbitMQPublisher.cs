@@ -35,9 +35,10 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Publishers
             {
                 var factory = new ConnectionFactory
                 {
-                    HostName = _rabbitMqSetting.HostName,
+                    HostName = _rabbitMqSetting.Host,
                     UserName = _rabbitMqSetting.UserName,
-                    Password = _rabbitMqSetting.Password
+                    Password = _rabbitMqSetting.Password,
+                    Port = _rabbitMqSetting.Port
                 };
 
                 using var connection = await factory.CreateConnectionAsync();

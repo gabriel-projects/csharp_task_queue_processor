@@ -9,13 +9,22 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="Testcontainers.MsSql" Version="4.3.0" />
+    <PackageReference Include="Testcontainers.RabbitMq" Version="4.3.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Domain\Api.GRRInnovations.TaskQueue.Processor.Domain.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor.Infrastructure\Api.GRRInnovations.TaskQueue.Processor.Infrastructure.csproj" />
+    <ProjectReference Include="..\Api.GRRInnovations.TaskQueue.Processor\Api.GRRInnovations.TaskQueue.Processor.csproj" />
   </ItemGroup>
 
 </Project>

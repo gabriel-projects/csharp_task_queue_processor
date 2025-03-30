@@ -31,9 +31,10 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Worker.Consumers
             _logger = logger;
             _factory = new ConnectionFactory
             {
-                HostName = rabbitMqSetting.Value.HostName,
+                HostName = rabbitMqSetting.Value.Host,
                 UserName = rabbitMqSetting.Value.UserName,
-                Password = rabbitMqSetting.Value.Password
+                Password = rabbitMqSetting.Value.Password,
+                Port = rabbitMqSetting.Value.Port
             };
 
             _logger = logger;

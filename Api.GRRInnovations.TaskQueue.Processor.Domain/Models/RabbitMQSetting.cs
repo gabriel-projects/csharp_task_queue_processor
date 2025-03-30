@@ -10,7 +10,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
     public class RabbitMQSetting
     {
         [Required]
-        public string HostName { get; set; }
+        public string Host { get; set; }
 
         [Required]
         public string UserName { get; set; }
@@ -19,6 +19,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
         public string Password { get; set; }
 
         public int RetryCount { get; set; }
+
+        public int Port { get; set; }
     }
 
     public static class RabbitMQQueues

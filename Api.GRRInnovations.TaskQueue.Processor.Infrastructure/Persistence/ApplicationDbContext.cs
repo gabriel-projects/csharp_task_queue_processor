@@ -9,7 +9,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        internal DbSet<TaskModel> Tasks { get; set; }
+        public DbSet<TaskModel> Tasks { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
