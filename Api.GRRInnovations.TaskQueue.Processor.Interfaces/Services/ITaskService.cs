@@ -16,5 +16,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services
         Task<ITaskModel> UpdateAsync(ITaskModel entity);
         Task<bool> RetryAsync(Guid id);
         Task<bool> CancelAsync(Guid id);
+        Task<ITaskStatusSummary> GetStatusSummaryAsync();
     }
 }

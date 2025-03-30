@@ -1,6 +1,7 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.In;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.Out;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.MessageBroker;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
@@ -34,7 +35,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
 
             await _rabbitMQPublisher.PublishMessageAsync(model, RabbitMQQueues.TaskQueue);
 
-            return new OkObjectResult(model);
+            var wrapper = await WrapperOutTask.From(model);
+            return new OkObjectResult(wrapper);
         }
 
         [HttpGet("{id}")]
@@ -64,6 +66,15 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Controllers
         {
             var success = await _taskService.CancelAsync(id);
             return success ? NoContent() : NotFound();
+        }
+
+        [HttpGet("diagnostics")]
+        public async Task<ActionResult<TaskStatusSummary>> GetDiagnostics()
+        {
+            var summary = await _taskService.GetStatusSummaryAsync();
+
+            var wrapper = await WrapperOutTaskDiagnostics.From(summary);
+            return Ok(wrapper);
         }
 
     }

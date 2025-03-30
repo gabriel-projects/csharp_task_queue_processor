@@ -1,4 +1,5 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Services;
@@ -60,6 +61,11 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Application.Services
             await _taskRepository.Update(mmodel);
 
             return mmodel;
+        }
+
+        public async Task<ITaskStatusSummary> GetStatusSummaryAsync()
+        {
+            return await _taskRepository.GetTaskStatusSummaryAsync();
         }
     }
 }

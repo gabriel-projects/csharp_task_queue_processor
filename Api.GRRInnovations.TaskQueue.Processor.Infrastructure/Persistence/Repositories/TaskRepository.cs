@@ -1,4 +1,5 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,46 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence.Repo
                 .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
 
             return task;
+        }
+
+        public async Task<ITaskStatusSummary> GetTaskStatusSummaryAsync()
+        {
+            var summary = await _context.Tasks
+                .GroupBy(e => e.Status)
+                .Select(e => new
+                {
+                    Status = e.Key,
+                    Count = e.Count()
+                })
+                .ToListAsync();
+
+            var result = new TaskStatusSummary();
+
+            foreach (var item in summary)
+            {
+                switch (item.Status)
+                {
+                    case Interfaces.Enums.ETaskStatus.Pending:
+                        result.Pending = item.Count;
+                        break;
+                    case Interfaces.Enums.ETaskStatus.Processing:
+                        result.Processing = item.Count;
+                        break;
+                    case Interfaces.Enums.ETaskStatus.Completed:
+                        result.Completed = item.Count;
+                        break;
+                    case Interfaces.Enums.ETaskStatus.Error:
+                        result.Error = item.Count;
+                        break;
+                    case Interfaces.Enums.ETaskStatus.Cancelled:
+                        result.Cancelled = item.Count;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return result;
         }
 
         public async Task<bool> RetryAsync(Guid id)

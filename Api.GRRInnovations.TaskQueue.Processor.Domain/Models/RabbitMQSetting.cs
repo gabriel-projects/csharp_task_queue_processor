@@ -17,6 +17,8 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.Models
 
         [Required]
         public string Password { get; set; }
+
+        public int RetryCount { get; set; }
     }
 
     public static class RabbitMQQueues

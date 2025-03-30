@@ -10,6 +10,7 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Interfaces.Repositories
         Task<IEnumerable<ITaskModel>> GetAllAsync(TaskOptions options);
         Task<bool> RetryAsync(Guid id);
         Task<bool> CancelAsync(Guid id);
+        Task<ITaskStatusSummary> GetTaskStatusSummaryAsync();
     }
 
     public class TaskOptions

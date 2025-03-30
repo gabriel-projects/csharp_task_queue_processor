@@ -1,4 +1,5 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Domain.Entities;
+using Api.GRRInnovations.TaskQueue.Processor.Domain.Models;
 using Api.GRRInnovations.TaskQueue.Processor.Domain.Wrappers.Out;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -19,6 +20,10 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Domain.ContractResolver
             if (type == typeof(WrapperOutTask))
             {
                 result.DefaultCreator = () => new WrapperOutTask(new TaskModel());
+            }
+            else if (type == typeof(WrapperOutTaskDiagnostics))
+            {
+                result.DefaultCreator = () => new WrapperOutTaskDiagnostics(new TaskStatusSummary());
             }
 
             return result;
