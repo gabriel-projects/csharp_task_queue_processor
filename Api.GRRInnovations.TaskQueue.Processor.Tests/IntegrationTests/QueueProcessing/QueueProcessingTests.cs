@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace Api.GRRInnovations.TaskQueue.Processor.Tests.IntegrationTests.QueueProcessing
 {
+    //[Collection(DatabaseCollection.Name)]
     public class QueueProcessingTests : IClassFixture<IntegrationTestFixture>
     {
         private readonly IntegrationTestFixture _fixture;
@@ -35,9 +36,6 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Tests.IntegrationTests.QueuePro
                 .Options;
 
             var context = new ApplicationDbContext(options);
-
-            // Aplica migrations, se necessário
-            context.Database.Migrate();
 
             // Testa alguma operação
             context.Tasks.Add(new TaskModel { Description = "Teste" });

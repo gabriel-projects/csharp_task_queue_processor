@@ -1,6 +1,8 @@
 ﻿using Api.GRRInnovations.TaskQueue.Processor.Infrastructure.Persistence;
 using DotNet.Testcontainers.Builders;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Respawn;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,14 +32,14 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Tests.IntegrationTests.Containe
 
 
             SqlContainer = new MsSqlBuilder()
-                .WithImage("mcr.microsoft.com/mssql/server:2019-latest").WithPassword("Password123")
-                .WithName("TestDb")
+                .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+                .WithPassword("Password123")
+                .WithName(Guid.NewGuid().ToString())
                 .WithCleanUp(true)
                 .Build();
 
             await RabbitMqContainer.StartAsync();
             await SqlContainer.StartAsync();
-
 
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlServer(SqlContainer.GetConnectionString())
@@ -51,6 +53,18 @@ namespace Api.GRRInnovations.TaskQueue.Processor.Tests.IntegrationTests.Containe
         {
             await RabbitMqContainer.StopAsync();
             await SqlContainer.StopAsync();
+        }
+
+        public async Task ClearDatabaseAsync()
+        {
+            using var connection = new SqlConnection(SqlContainer.GetConnectionString());
+            await connection.OpenAsync();
+            var respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.SqlServer
+            });
+
+            await respawner.ResetAsync(connection);
         }
     }
 }
