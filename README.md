@@ -2,10 +2,6 @@
 
 A robust task queue processing system built with .NET 9.0, implementing a clean architecture pattern for efficient task management and processing.
 
-Future feats: Observabilidade: Logs estruturados e métricas (ex: OpenTelemetry + Prometheus)
-
-Future feats: Testes de integração reaproveitando a criação do db
-
 ## 🚀 Features
 
 - Clean Architecture implementation
@@ -85,6 +81,18 @@ The application uses Serilog for structured logging. Logs are configured to outp
 - Console
 - File
 - Docker logs (when running in container)
+
+## 🔮 Future Features
+
+### Observability
+- Implement structured logging and metrics using OpenTelemetry
+- Integration with Prometheus for metrics collection and visualization
+- Enhanced monitoring and tracing capabilities
+
+### Testing Improvements
+- Integration tests reusing database creation
+- Enhanced test coverage for critical paths
+- Performance testing scenarios
 
 ## 🤝 Contributing
 
