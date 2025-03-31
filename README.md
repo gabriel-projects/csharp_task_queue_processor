@@ -95,15 +95,14 @@ The application uses Serilog for structured logging. Logs are configured to outp
 - Performance testing scenarios
 
 ### Technology Stack Analyzer
-- Repository technology tags:
-  - [EFCore] - Entity Framework Core
-  - [RabbitMQ] - Message Queue
-  - [TestContainers] - Testing Infrastructure
-  - [Docker] - Containerization
-  - [Serilog] - Logging
-  - [CleanArchitecture] - Architecture Pattern
-  - [Swagger] - API Documentation
-  - [WorkerService] - Background Processing
+- [EFCore] - Entity Framework Core
+- [RabbitMQ] - Message Queue
+- [TestContainers] - Testing Infrastructure
+- [Docker] - Containerization
+- [Serilog] - Logging
+- [CleanArchitecture] - Architecture Pattern
+- [Swagger] - API Documentation
+- [WorkerService] - Background Processing
 
 ## 🤝 Contributing
 
