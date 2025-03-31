@@ -117,4 +117,8 @@ The application uses Serilog for structured logging. Logs are configured to outp
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 💬 Contact
 
+If you have questions or want to talk about Feature Flags and .NET best practices, reach out:
+
+📱 [LinkedIn](https://www.linkedin.com/in/gabriel-ribeiro96/)
