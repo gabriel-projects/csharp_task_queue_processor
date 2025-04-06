@@ -95,6 +95,7 @@ The application uses Serilog for structured logging. Logs are configured to outp
 - Performance testing scenarios
 
 ### Technology Stack Analyzer
+- [Database] - PostgreeSQL
 - [EFCore] - Entity Framework Core
 - [RabbitMQ] - Message Queue
 - [TestContainers] - Testing Infrastructure
